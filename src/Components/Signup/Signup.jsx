@@ -2,15 +2,16 @@ import React from "react";
 import "./Signup.css";
 import SignupPageSVG from "../../assets/images/Login&Signup BG.svg";
 import LogoSVG from "../../assets/images/Login&Signup Logo.svg";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import toast from "react-hot-toast/headless";
 
 export default function Signup() {
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate(); 
 
-    // Formik setup with Yup validation
+    
     const formik = useFormik({
         initialValues: {
             firstName: "",
@@ -55,31 +56,34 @@ export default function Signup() {
         }),
         onSubmit: async (values) => {
             try {
-                // Send signup request using Axios
                 const response = await axios.post(
-                    "http://localhost:5296/api/Account/Register", // Replace with your API endpoint
+                    "http://localhost:5296/api/Account/Register", 
                     {
                         firstName: values.firstName,
                         lastName: values.lastName,
                         email: values.email,
-                        phoneNumber: values.phone, // Ensure this matches the backend's expected field name
+                        phoneNumber: values.phone, 
                         password: values.password,
-                        confirmPassword: values.confirmPassword, // Ensure this matches the backend's expected field name
+                        confirmPassword: values.confirmPassword,
                     }
                 );
 
-                // Handle successful signup
                 console.log("Signup successful!", response.data);
-                alert("Signup successful! You can now log in.");
+                toast.success("Signed up successfully", {
+                    position: "bottom-right",
+                    duration: "200",
+                });
 
-                // Navigate to the login page
-                navigate("/login"); // Use the navigate function
+                navigate("/login"); 
             } catch (error) {
                 console.error(
                     "Signup failed:",
                     error.response?.data || error.message
                 );
-                alert("Signup failed. Please check your inputs and try again.");
+                toast.error(error.response.data.message, {
+                    position: "bottom-right",
+                    duration: "500",
+                });
             }
         },
     });

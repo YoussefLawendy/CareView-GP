@@ -6,11 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function Login() {
     const navigate = useNavigate();
 
-    // Formik setup with Yup validation
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -22,9 +22,9 @@ export default function Login() {
                 .required("Username or email is required")
                 .test("email", "Invalid email or username", (value) => {
                     if (value.includes("@")) {
-                        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); // Email validation
+                        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); 
                     } else {
-                        return /^[a-zA-Z0-9_.]{3,20}$/.test(value); // Username validation
+                        return /^[a-zA-Z0-9_.]{3,20}$/.test(value);
                     }
                 }),
             password: Yup.string()
@@ -47,21 +47,19 @@ export default function Login() {
                 );
         
                 console.log("Login successful!", response.data);
+
+                toast.success("Logged in successfully",{
+                    position:"bottom-right",
+                    duration: "200",
+                })
                 navigate("/home");
             } catch (error) {
-                if (error.response) {
-                    // The request was made and the server responded with a status code
+                error.response.data.message
                     console.error("Server responded with an error:", error.response.data);
-                    alert(`Error: ${error.response.data.message || "Login failed"}`);
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    console.error("No response received:", error.request);
-                    alert("Network error. Please check your connection.");
-                } else {
-                    // Something happened in setting up the request
-                    console.error("Request setup error:", error.message);
-                    alert("An unexpected error occurred.");
-                }
+                    toast.error(error.response.data.message,{
+                        position:"bottom-right",
+                        duration: "500",
+                    })
             }
         },
     });

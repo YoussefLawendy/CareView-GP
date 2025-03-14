@@ -1,22 +1,18 @@
 import React, { useContext, useState } from "react";
 import ForgetPassSVG from "../../assets/images/Login&Signup BG.svg";
 import LogoSVG from "../../assets/images/Login&Signup Logo.svg";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
 
 export default function ForgetPassword() {
-    // State for input and errors
+
     const { setcheckMail } = useContext(AuthContext);
-    const [email, setEmail] = useState(""); // For email input
+    const [email, setEmail] = useState("");
     const [errors, setErrors] = useState({});
 
-    // Hook for programmatic navigation
     const navigate = useNavigate();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Regex pattern for email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation
-
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
         const validationErrors = {};
@@ -28,15 +24,11 @@ export default function ForgetPassword() {
             validationErrors.email = "Please enter a valid email address.";
         }
 
-        // Set errors or proceed with form submission
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
             setErrors({});
-            // Submit the form (e.g., send data to an API)
             console.log("Form submitted successfully!", { email });
-
-            // Navigate to the "/checkmail" page after successful validation
             navigate("/checkmail");
         }
     };

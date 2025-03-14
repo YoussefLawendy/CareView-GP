@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function ResetPassword() {
     const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function ResetPassword() {
         }),
         onSubmit: async (values) => {
             try {
-                // Send reset password request using Axios
+
                 const response = await axios.post(
                     "http://localhost:5296/api/Account/ResetPassword",
                     {
@@ -40,19 +41,22 @@ export default function ResetPassword() {
 
                 // Handle successful password reset
                 console.log("Password reset successful!", response.data);
-                alert("Password reset successful! You can now log in.");
+                toast.success("Password reset successfully",{
+                    position:"bottom-right",
+                    duration: "500"
+                })
 
-                // Debugging: Log before navigation
                 console.log("Navigating to login page...");
-
-                // Navigate to the login page
-                navigate("/login"); // This line redirects the user to the login page
+                navigate("/login");
             } catch (error) {
                 console.error(
                     "Password reset failed:",
                     error.response?.data || error.message
                 );
-                alert("Password reset failed. Please try again.");
+                toast.error(error.response.data.message,{
+                    position:"bottom-right",
+                    duration: "500",
+                })
             }
         },
     });

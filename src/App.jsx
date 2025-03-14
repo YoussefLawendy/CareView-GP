@@ -10,6 +10,7 @@ import ResetPassword from "./Components/ResetPassword/ResetPassword.jsx";
 import LandingPage from "./Components/LandingPage/LandingPage.jsx";
 import Home from "./Components/Home/Home.jsx";
 import AuthContextProvider from "./Context/AuthContext.jsx";
+import { Toaster } from "react-hot-toast";
 
 let routers = createBrowserRouter([
     { path: "login", element: <Login /> },
@@ -26,6 +27,7 @@ function App() {
     return (
         <>
             <AuthContextProvider>
+                <Toaster />
                 <RouterProvider router={routers} />
             </AuthContextProvider>
         </>
