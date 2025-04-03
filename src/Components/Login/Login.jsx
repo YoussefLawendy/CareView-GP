@@ -47,14 +47,12 @@ export default function Login() {
                 );
         
                 console.log("Login successful!", response.data);
-
                 toast.success("Logged in successfully",{
                     position:"bottom-right",
                     duration: "200",
                 })
                 navigate("/home");
             } catch (error) {
-                error.response.data.message
                     console.error("Server responded with an error:", error.response.data);
                     toast.error(error.response.data.message,{
                         position:"bottom-right",

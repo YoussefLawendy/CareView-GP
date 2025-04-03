@@ -1,14 +1,21 @@
-import { createContext, useState } from "react";
+// src/Context/AuthContext.jsx
+import React, { createContext, useState } from "react";
 
+export const AuthContext = createContext();
 
+export const AuthContextProvider = ({ children }) => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [user, setUser] = useState(null);
 
-export let AuthContext = createContext()
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
 
-export default function AuthContextProvider(props) {
-
-    const [checkMail, setcheckMail] = useState(null)
-
-    return <AuthContext.Provider value={{ checkMail, setcheckMail }} >
-        {props.children}
-    </AuthContext.Provider>
-}
+    return (
+        <AuthContext.Provider
+            value={{ isSidebarOpen, toggleSidebar, user, setUser }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
+};
