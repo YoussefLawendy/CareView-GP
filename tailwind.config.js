@@ -4,7 +4,13 @@ export default {
         "./src/**/*.{js,jsx,ts,tsx}", // Adjust this path to match your project structure
     ],
     theme: {
+        fontFamily: {
+            sans: ["Lato", "sans-serif"],
+        },
         extend: {
+            backgroundImage: {
+                "WebsiteBG": "url('../src/assets/images/WebsiteBG.svg')",
+            },
             colors: {
                 // Define custom background colors
                 bg: "#E4E5DB",
