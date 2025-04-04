@@ -267,6 +267,11 @@ export default function LandPage() {
                     {/* About Section */}
                     <section id="about" className="mb-8 mt-0 p-8">
                         <div className="bg-secondary text-bg p-12 rounded-lg relative overflow-hidden min-h-[50vh]">
+                            <img
+                                src={BGImage}
+                                className="absolute inset-0 w-full h-full object-cover opacity-50"
+                                alt="background"
+                            />
                             <div className="relative z-10 max-w-6xl mx-auto">
                                 {/* Who We Are */}
                                 <div className="text-center mb-16">
