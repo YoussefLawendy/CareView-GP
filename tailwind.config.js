@@ -8,8 +8,11 @@ export default {
             sans: ["Lato", "sans-serif"],
         },
         extend: {
+            transitionProperty: {
+                margin: "margin",
+            },
             backgroundImage: {
-                "WebsiteBG": "url('../src/assets/images/WebsiteBG.svg')",
+                WebsiteBG: "url('../src/assets/images/WebsiteBG.svg')",
             },
             colors: {
                 // Define custom background colors

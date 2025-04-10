@@ -2,7 +2,7 @@ import React from "react";
 import FooterLogo from "../../assets/images/Logo image.svg";
 import { Icon } from "@iconify/react";
 
-const Footer = () => {
+export default function Footer () {
     const scrollToSection = (sectionId) => {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -124,5 +124,3 @@ const Footer = () => {
         </footer>
     );
 };
-
-export default Footer;

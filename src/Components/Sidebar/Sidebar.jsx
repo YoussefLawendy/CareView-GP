@@ -32,63 +32,84 @@ export default function Sidebar({ isSidebarOpen, toggleSidebar }) {
         <div
             className={`bg-primary text-textPrimary ${
                 isSidebarOpen ? "w-64" : "w-20"
-            } py-7 px-2 fixed inset-y-0 left-0 transition-all duration-300`}
+            } py-7 px-2 fixed inset-y-0 left-0 transition-all duration-300 ease-in-out flex flex-col z-50`}
         >
-            {/* Logo and CareView Text */}
-            <div
-                className="text-textPrimary flex items-center space-x-2 px-4 mb-12 cursor-pointer"
-                onClick={toggleSidebar}
-            >
-                <img src={LogoSVG} className="w-8 h-8 mr-2" alt="logo" />
-                {isSidebarOpen && (
-                    <span className="text-xl font-extrabold">CareView</span>
-                )}
+            {/* Logo and Toggle Section */}
+            <div className="relative px-4 mb-12">
+                <div className="flex items-center">
+                    <img src={LogoSVG} className="w-8 h-8" alt="logo" />
+                    <span
+                        className={`text-xl font-extrabold text-secondary ml-2 transition-all duration-300 ${
+                            isSidebarOpen ? "opacity-100" : "opacity-0 w-0"
+                        }`}
+                    >
+                        CareView
+                    </span>
+                </div>
+
+                <button
+                    onClick={toggleSidebar}
+                    className="absolute -right-6 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-secondary border-2 border-primary text-white hover:bg-secondary/90 transition-all duration-200 shadow-md z-10"
+                    aria-label={
+                        isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"
+                    }
+                >
+                    <Icon
+                        icon={
+                            isSidebarOpen
+                                ? "mdi:chevron-left"
+                                : "mdi:chevron-right"
+                        }
+                        width="18"
+                        height="18"
+                    />
+                </button>
             </div>
 
             {/* Sidebar Links */}
-            <nav className="space-y-6 relative">
+            <nav className="space-y-2 flex-1">
                 {["home", "features", "about", "contact"].map((section) => (
-                    <Link
-                        key={section}
-                        to={`#${section}`}
-                        onClick={() => handleClick(section)}
-                        className="flex items-center py-2.5 px-4 font-bold rounded transition duration-200 relative overflow-hidden"
-                    >
-                        {/* Background Animation */}
-                        <div
-                            className={`absolute inset-y-0 left-0 bg-secondary transition-all duration-500 ease-in-out ${
-                                activeSection === section ? "w-full" : "w-0"
-                            }`}
-                            style={{ zIndex: -1 }}
-                        ></div>
-
-                        {/* Icon */}
-                        <Icon
-                            icon={
-                                section === "home"
-                                    ? "tabler:home-filled"
-                                    : section === "features"
-                                    ? "solar:stars-bold-duotone"
-                                    : section === "about"
-                                    ? "clarity:group-solid"
-                                    : "fluent:call-12-filled"
-                            }
-                            width="24"
-                            height="24"
-                            className={`transition-colors duration-200 ${
+                    <div key={section} className="relative h-12">
+                        <button
+                            onClick={() => handleClick(section)}
+                            className={`w-full text-left flex items-center h-full ${
+                                isSidebarOpen ? "pl-4 pr-4" : "pl-4 pr-0"
+                            } font-medium rounded-lg transition-colors duration-300 relative overflow-hidden ${
                                 activeSection === section
-                                    ? "text-bg"
-                                    : "text-third"
+                                    ? "bg-secondary"
+                                    : "hover:bg-gray-700/30"
                             }`}
-                        />
+                        >
+                            <div className="w-6 flex-shrink-0 flex justify-start">
+                                <Icon
+                                    icon={
+                                        section === "home"
+                                            ? "tabler:home-filled"
+                                            : section === "features"
+                                            ? "solar:stars-bold-duotone"
+                                            : section === "about"
+                                            ? "clarity:group-solid"
+                                            : "fluent:call-12-filled"
+                                    }
+                                    width="24"
+                                    height="24"
+                                    className={`transition-colors duration-200 ${
+                                        activeSection === section
+                                            ? "text-white"
+                                            : "text-third"
+                                    }`}
+                                />
+                            </div>
 
-                        {/* Text (Conditionally Rendered) */}
-                        {isSidebarOpen && ( // Show text only if sidebar is open
                             <span
-                                className={`ml-8 transition-colors duration-200 ${
+                                className={`transition-all duration-300 ${
+                                    isSidebarOpen
+                                        ? "ml-4 opacity-100 w-auto"
+                                        : "ml-0 opacity-0 w-0"
+                                } ${
                                     activeSection === section
-                                        ? "text-bg"
-                                        : "text-third"
+                                        ? "text-white font-semibold"
+                                        : "text-third hover:text-secondary"
                                 }`}
                             >
                                 {section === "home"
@@ -99,8 +120,20 @@ export default function Sidebar({ isSidebarOpen, toggleSidebar }) {
                                     ? "About Us"
                                     : "Contact"}
                             </span>
-                        )}
-                    </Link>
+
+                            {!isSidebarOpen && (
+                                <div className="absolute left-full ml-3 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                                    {section === "home"
+                                        ? "Home"
+                                        : section === "features"
+                                        ? "Features"
+                                        : section === "about"
+                                        ? "About Us"
+                                        : "Contact"}
+                                </div>
+                            )}
+                        </button>
+                    </div>
                 ))}
             </nav>
         </div>
